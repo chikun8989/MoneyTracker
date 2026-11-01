@@ -24,8 +24,17 @@ export default function AppTabs() {
           <TabTrigger name="home" href="/" asChild>
             <TabButton>Home</TabButton>
           </TabTrigger>
+          <TabTrigger name="accounts" href="/accounts" asChild>
+            <TabButton>Accounts</TabButton>
+          </TabTrigger>
+          <TabTrigger name="reports" href="/reports" asChild>
+            <TabButton>Reports</TabButton>
+          </TabTrigger>
           <TabTrigger name="explore" href="/explore" asChild>
-            <TabButton>Explore</TabButton>
+            <TabButton>Transactions</TabButton>
+          </TabTrigger>
+          <TabTrigger name="settings" href="/settings" asChild>
+            <TabButton>Settings</TabButton>
           </TabTrigger>
         </CustomTabList>
       </TabList>
@@ -34,12 +43,23 @@ export default function AppTabs() {
 }
 
 export function TabButton({ children, isFocused, ...props }: TabTriggerSlotProps) {
+  const icons = {
+    Home: { ios: 'house.fill', android: 'home', web: 'home' },
+    Accounts: { ios: 'creditcard.fill', android: 'account_balance_wallet', web: 'account_balance_wallet' },
+    Reports: { ios: 'chart.bar.fill', android: 'bar_chart', web: 'bar_chart' },
+    Transactions: { ios: 'list.bullet.rectangle.fill', android: 'receipt_long', web: 'receipt_long' },
+    Settings: { ios: 'gearshape.fill', android: 'settings', web: 'settings' },
+  } as const;
+  const label = typeof children === 'string' ? children : '';
+  const icon = label in icons ? icons[label as keyof typeof icons] : icons.Home;
+  const accent = '#1F6B50';
   return (
-    <Pressable {...props} style={({ pressed }) => pressed && styles.pressed}>
+    <Pressable {...(props as any)} style={({ pressed }) => pressed && styles.pressed}>
       <ThemedView
         type={isFocused ? 'backgroundSelected' : 'backgroundElement'}
         style={styles.tabButtonView}>
-        <ThemedText type="small" themeColor={isFocused ? 'text' : 'textSecondary'}>
+        <SymbolView name={icon} size={18} tintColor={isFocused ? accent : '#78867E'} />
+        <ThemedText type="small" themeColor={isFocused ? 'text' : 'textSecondary'} style={isFocused ? styles.selectedLabel : undefined}>
           {children}
         </ThemedText>
       </ThemedView>
@@ -55,7 +75,7 @@ export function CustomTabList(props: TabListProps) {
     <View {...props} style={styles.tabListContainer}>
       <ThemedView type="backgroundElement" style={styles.innerContainer}>
         <ThemedText type="smallBold" style={styles.brandText}>
-          Expo Starter
+          MoneyTracker
         </ThemedText>
 
         {props.children}
@@ -101,10 +121,15 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   tabButtonView: {
-    paddingVertical: Spacing.one,
+    paddingVertical: Spacing.two,
     paddingHorizontal: Spacing.three,
     borderRadius: Spacing.three,
+    minWidth: 82,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: Spacing.one,
   },
+  selectedLabel: { color: '#1F6B50', fontWeight: '700' },
   externalPressable: {
     flexDirection: 'row',
     justifyContent: 'center',

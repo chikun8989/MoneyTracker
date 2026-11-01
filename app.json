@@ -8,9 +8,11 @@
     "scheme": "moneytracker",
     "userInterfaceStyle": "automatic",
     "ios": {
+      "bundleIdentifier": "com.moneytracker.personal",
       "icon": "./assets/expo.icon"
     },
     "android": {
+      "package": "com.moneytracker.personal",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -31,6 +33,20 @@
           "backgroundColor": "#208AEF",
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 76
+        }
+      ],
+      "expo-sqlite",
+      "expo-sharing",
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Allow MoneyTracker to unlock with Face ID."
+        }
+      ],
+      [
+        "expo-secure-store",
+        {
+          "faceIDPermission": "Allow MoneyTracker to use Face ID for biometric unlock."
         }
       ]
     ],
